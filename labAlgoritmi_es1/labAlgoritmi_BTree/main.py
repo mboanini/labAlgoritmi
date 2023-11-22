@@ -3,13 +3,13 @@ import random
 import numpy as np
 import matplotlib.pyplot as plt
 import timeit
-import sys
+# import sys
 import os
 
 from ABR import *
 from BTree import *
 
-sys.setrecursionlimit(10000)
+# Le sys.setrecursionlimit(10000)
 
 # Valore massimo che può essere inserito nell'array
 # maxValue = 1000
