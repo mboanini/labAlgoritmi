@@ -1,28 +1,15 @@
 import random
-
 import numpy as np
 import matplotlib.pyplot as plt
 import timeit
-# import sys
 import os
 
 from ABR import *
 from BTree import *
 
-# Le sys.setrecursionlimit(10000)
 
-# Valore massimo che può essere inserito nell'array
-# maxValue = 1000
-# maxlength = 20
-
-
-# Array di numeri random
-# def randomArray(n):
-  #  return np.random.randint(0, maxValue + 1, n).tolist()
-
-
-def drawTable(columns: list, headers: tuple, title: str):
-    fig, ax = plt.subplots(figsize=(8, 35))
+def drawTable(columns: list, headers: tuple, title: str, tablename: str):
+    fig, ax = plt.subplots(figsize=(8, 18))
     plt.title(title)
 
     data = np.stack(tuple(columns), axis=1)
@@ -39,51 +26,81 @@ def drawTable(columns: list, headers: tuple, title: str):
         elif cell[0] % 2 == 0:
             table[cell].set_facecolor("#deebff")
 
-    fig.savefig("./tables/Tabelle.png", bbox_inches='tight')
+    fig.savefig(f"./tables/{tablename}.png", bbox_inches='tight')
 
 
-def drawPlot_time(x, y, string):
+def drawPlot_time(x, y, title: str, plotname: str):
     fig, ax = plt.subplots(figsize=(5, 2.7), layout='constrained')
     ax.plot(x, y, label='abr')  # Plot some data on the axes.
     ax.set_xlabel('Numero elementi')  # Add an x-label to the axes.
     ax.set_ylabel('Tempo [ms]')  # Add a y-label to the axes.
-    ax.set_title(string)  # Add a title to the axes.
+    ax.set_title(title)  # Add a title to the axes.
     plt.show()
+    fig.savefig(f"./plots/{plotname}.png", bbox_inches='tight')
 
 
-def drawPlot_node(x, y, string):
+def drawPlot_node(x, y, title: str, plotname: str):
     fig, ax = plt.subplots(figsize=(5, 2.7), layout='constrained')
     ax.plot(x, y, label='abr')  # Plot some data on the axes.
     ax.set_xlabel('Numero elementi')  # Add an x-label to the axes.
     ax.set_ylabel('Numero nodi')  # Add a y-label to the axes.
-    ax.set_title(string)  # Add a title to the axes.
+    ax.set_title(title)  # Add a title to the axes.
     plt.show()
+    fig.savefig(f"./plots/{plotname}.png", bbox_inches='tight')
 
 
-def draw4Plot_time(x, y0, y1, y2, y3, string):
+def draw3Plot_time(x, y1, y2, y3, title: str, plotname: str):
     fig, ax = plt.subplots(figsize=(5, 2.7), layout='constrained')
-    ax.plot(x, y0, label='abr')  # Plot some data on the axes.
-    ax.plot(x, y1, label='btree(t1)')  # Plot more data on the axes...
-    ax.plot(x, y2, label='btree(t2)')  # ... and some more.
-    ax.plot(x, y3, label='btree(t3)')  # ... and some more.
+    ax.plot(x, y1, 'c', label='btree(t1)')
+    ax.plot(x, y2, 'm', label='btree(t2)')
+    ax.plot(x, y3, 'r', label='btree(t3)')
     ax.set_xlabel('Numero elementi')  # Add an x-label to the axes.
     ax.set_ylabel('Tempo [ms]')  # Add a y-label to the axes.
-    ax.set_title(string)  # Add a title to the axes.
+    ax.set_title(title)  # Add a title to the axes.
     ax.legend()  # Add a legend.
     plt.show()
+    fig.savefig(f"./plots/{plotname}.png", bbox_inches='tight')
 
 
-def draw4Plot_node(x, y0, y1, y2, y3, string):
+def draw3Plot_node(x, y1, y2, y3, title: str, plotname: str):
     fig, ax = plt.subplots(figsize=(5, 2.7), layout='constrained')
-    ax.plot(x, y0, label='abr')  # Plot some data on the axes.
-    ax.plot(x, y1, label='btree(t1)')  # Plot more data on the axes...
-    ax.plot(x, y2, label='btree(t2)')  # ... and some more.
-    ax.plot(x, y3, label='btree(t3)')  # ... and some more.
+    ax.plot(x, y1, 'c', label='btree(t1)')
+    ax.plot(x, y2, 'm', label='btree(t2)')
+    ax.plot(x, y3, 'r', label='btree(t3)')
     ax.set_xlabel('Numero elementi')  # Add an x-label to the axes.
     ax.set_ylabel('Numero nodi')  # Add a y-label to the axes.
-    ax.set_title(string)  # Add a title to the axes.
+    ax.set_title(title)  # Add a title to the axes.
     ax.legend()  # Add a legend.
     plt.show()
+    fig.savefig(f"./plots/{plotname}.png", bbox_inches='tight')
+
+
+def draw4Plot_time(x, y0, y1, y2, y3, title: str, plotname: str):
+    fig, ax = plt.subplots(figsize=(5, 2.7), layout='constrained')
+    ax.plot(x, y0, label='abr')  # Plot some data on the axes.
+    ax.plot(x, y1, 'c', label='btree(t1)')  # Plot more data on the axes...
+    ax.plot(x, y2, 'm', label='btree(t2)')  # ... and some more.
+    ax.plot(x, y3, 'r', label='btree(t3)')  # ... and some more.
+    ax.set_xlabel('Numero elementi')  # Add an x-label to the axes.
+    ax.set_ylabel('Tempo [ms]')  # Add a y-label to the axes.
+    ax.set_title(title)  # Add a title to the axes.
+    ax.legend()  # Add a legend.
+    plt.show()
+    fig.savefig(f"./plots/{plotname}.png", bbox_inches='tight')
+
+
+def draw4Plot_node(x, y0, y1, y2, y3, title: str, plotname: str):
+    fig, ax = plt.subplots(figsize=(5, 2.7), layout='constrained')
+    ax.plot(x, y0, label='abr')  # Plot some data on the axes.
+    ax.plot(x, y1, 'c', label='btree(t1)')  # Plot more data on the axes...
+    ax.plot(x, y2, 'm', label='btree(t2)')  # ... and some more.
+    ax.plot(x, y3, 'r', label='btree(t3)')  # ... and some more.
+    ax.set_xlabel('Numero elementi')  # Add an x-label to the axes.
+    ax.set_ylabel('Numero nodi')  # Add a y-label to the axes.
+    ax.set_title(title)  # Add a title to the axes.
+    ax.legend()  # Add a legend.
+    plt.show()
+    fig.savefig(f"./plots/{plotname}.png", bbox_inches='tight')
 
 
 def main():
@@ -124,10 +141,10 @@ def main():
         result_node_search_btree2_partial = []
         result_node_search_btree3_partial = []
 
-        t1 = 250  # 20
-        t2 = 700  # 250
-        t3 = 3000  # 1000
-        array_test = np.random.randint(0, 100, 10000)  # 10000
+        t1 = 300  # 20
+        t2 = 2500  # 250
+        t3 = 5000  # 1000
+        array_test = np.random.randint(0, 1000, 10000)  # 10000
         # print(array_test)
         my_btree1 = BTree(t1)
         my_btree2 = BTree(t2)
@@ -135,7 +152,7 @@ def main():
         my_tree = ABR()
         values_inserted = []
 
-        block_size = 100  # 100
+        block_size = 200  # 100
 
         for j in range(0, len(array_test), block_size):
             # test per tempo di esecuzione inserimento in abr
@@ -325,6 +342,9 @@ def main():
     if not os.path.exists("tables"):
         os.makedirs("tables")
 
+    if not os.path.exists("plots"):
+        os.makedirs("plots")
+
     # Tabella ABR
     columns_abr = [
         [i for i in range(0, len(array_test), block_size)],
@@ -333,11 +353,10 @@ def main():
         ["{:.3e}".format(res) for res in result_time_search_abr],
         ["{:.3e}".format(res) for res in result_node_search_abr],
     ]
-
     headers_abr = ("Nr elementi", "Tempo insert", "Nodi insert", "Tempo search", "Nodi search")
     title_abr = "Albero binario di Ricerca"
 
-    drawTable(columns_abr, headers_abr, title_abr)
+    drawTable(columns_abr, headers_abr, title_abr, "tabella1")
     plt.show()
 
     # Tabella Btree con t=t1
@@ -348,11 +367,10 @@ def main():
         ["{:.3e}".format(res) for res in result_time_search_btree1],
         ["{:.3e}".format(res) for res in result_node_search_btree1],
     ]
-
     headers_btree1 = ("Nr elementi", "Tempo insert", "Nodi insert", "Tempo search", "Nodi search")
     title_btree1 = "B Albero con t = t1"
 
-    drawTable(columns_btree1, headers_btree1, title_btree1)
+    drawTable(columns_btree1, headers_btree1, title_btree1, "tabella2")
     plt.show()
 
     # Tabella Btree con t=t2
@@ -367,7 +385,7 @@ def main():
     headers_btree2 = ("Nr elementi", "Tempo insert", "Nodi insert", "Tempo search", "Nodi search")
     title_btree2 = "B Albero con t = t2"
 
-    drawTable(columns_btree2, headers_btree2, title_btree2)
+    drawTable(columns_btree2, headers_btree2, title_btree2, "tabella3")
     plt.show()
 
     # Tabella Btree con t=t3
@@ -382,47 +400,56 @@ def main():
     headers_btree3 = ("Nr elementi", "Tempo insert", "Nodi insert", "Tempo search", "Nodi search")
     title_btree3 = "B Albero con t = t3"
 
-    drawTable(columns_btree3, headers_btree3, title_btree3)
+    drawTable(columns_btree3, headers_btree3, title_btree3, "tabella4")
     plt.show()
 
     # Grafici
-    x = np.linspace(0, len(array_test), block_size)  # Sample data.
-    # x = np.arange(0, len(array_test) * block_size, block_size)
+    x = np.linspace(0, len(array_test), len(array_test) // block_size)  # Sample data.
+    # x = np.arange(0, len(array_test), block_size)
 
-    drawPlot_time(x, result_time_insert_abr, "Tempi di inserimento abr")
-    drawPlot_time(x, result_time_insert_btree1, "Tempi di inserimento btree con t=t1")
-    drawPlot_time(x, result_time_insert_btree2, "Tempi di inserimento btree con t=t2")
-    drawPlot_time(x, result_time_insert_btree3, "Tempi di inserimento btree con t=t3")
+    drawPlot_time(x, result_time_insert_abr, "Tempi di inserimento abr", "grafico1")
+    # drawPlot_time(x, result_time_insert_btree1, "Tempi di inserimento btree con t=t1")
+    # drawPlot_time(x, result_time_insert_btree2, "Tempi di inserimento btree con t=t2")
+    # drawPlot_time(x, result_time_insert_btree3, "Tempi di inserimento btree con t=t3")
 
-    drawPlot_time(x, result_time_search_abr, "Tempi di ricerca abr")
-    drawPlot_time(x, result_time_search_btree1, "Tempi di ricerca btree con t=t1")
-    drawPlot_time(x, result_time_search_btree2, "Tempi di ricerca btree con t=t2")
-    drawPlot_time(x, result_time_search_btree3, "Tempi di ricerca btree con t=t3")
+    drawPlot_time(x, result_time_search_abr, "Tempi di ricerca abr", "grafico2")
+    # drawPlot_time(x, result_time_search_btree1, "Tempi di ricerca btree con t=t1")
+    # drawPlot_time(x, result_time_search_btree2, "Tempi di ricerca btree con t=t2")
+    # drawPlot_time(x, result_time_search_btree3, "Tempi di ricerca btree con t=t3")
 
-    drawPlot_node(x, result_node_insert_abr, "Numero nodi inserimento abr")
-    drawPlot_node(x, result_node_insert_btree1, "Numero nodi inserimento btree con t=t1")
-    drawPlot_node(x, result_node_insert_btree2, "Numero nodi inserimento btree con t=t2")
-    drawPlot_node(x, result_node_insert_btree3, "Numero nodi inserimento btree con t=t3")
+    drawPlot_node(x, result_node_insert_abr, "Numero nodi inserimento abr", "grafico3")
+    # drawPlot_node(x, result_node_insert_btree1, "Numero nodi inserimento btree con t=t1")
+    # drawPlot_node(x, result_node_insert_btree2, "Numero nodi inserimento btree con t=t2")
+    # drawPlot_node(x, result_node_insert_btree3, "Numero nodi inserimento btree con t=t3")
 
-    drawPlot_node(x, result_node_search_abr, "Numero nodi ricerca abr")
-    drawPlot_node(x, result_node_search_btree1, "Numero nodi ricerca btree con t=t1")
-    drawPlot_node(x, result_node_search_btree2, "Numero nodi ricerca btree con t=t2")
-    drawPlot_node(x, result_node_search_btree3, "Numero nodi ricerca btree con t=t3")
+    drawPlot_node(x, result_node_search_abr, "Numero nodi ricerca abr", "grafico4")
+    # drawPlot_node(x, result_node_search_btree1, "Numero nodi ricerca btree con t=t1")
+    # drawPlot_node(x, result_node_search_btree2, "Numero nodi ricerca btree con t=t2")
+    # drawPlot_node(x, result_node_search_btree3, "Numero nodi ricerca btree con t=t3")
+
+    draw3Plot_time(x, result_time_insert_btree1, result_time_insert_btree2,
+                   result_time_insert_btree3, "Tempi di inserimento btree", "grafico5")
+    draw3Plot_node(x, result_node_insert_btree1, result_node_insert_btree2,
+                   result_node_insert_btree3, "Nodi inserimento btree", "grafico6")
+    draw3Plot_time(x, result_time_search_btree1, result_time_search_btree2,
+                   result_time_search_btree3, "Tempi di ricerca btree", "grafico7")
+    draw3Plot_node(x, result_node_search_btree1, result_node_search_btree2,
+                   result_node_search_btree3, "Nodi ricerca btree", "grafico8")
 
     # Grafico tempi insert
     draw4Plot_time(x, result_time_insert_abr, result_time_insert_btree1, result_time_insert_btree2,
-                   result_time_insert_btree3, "Tempi di inserimento (prova)")
+                   result_time_insert_btree3, "Tempi di inserimento", "grafico9")
     # Grafico nodi insert
     draw4Plot_node(x, result_node_insert_abr, result_node_insert_btree1, result_node_insert_btree2,
-                   result_node_insert_btree3, "Nodi inserimento (prova)")
+                   result_node_insert_btree3, "Nodi inserimento", "grafico10")
     # Grafico tempi search
     draw4Plot_time(x, result_time_search_abr, result_time_search_btree1, result_time_search_btree2,
-                   result_time_search_btree3, "Tempi di ricerca (prova)")
+                   result_time_search_btree3, "Tempi di ricerca", "grafico11")
     # Grafico nodi search
     draw4Plot_node(x, result_node_search_abr, result_node_search_btree1, result_node_search_btree2,
-                   result_node_search_btree3, "Nodi ricerca (prova)")
+                   result_node_search_btree3, "Nodi ricerca", "grafico12")
 
 
 if __name__ == '__main__':
-    num_iter_test = 10
+    num_iter_test = 1
     main()
