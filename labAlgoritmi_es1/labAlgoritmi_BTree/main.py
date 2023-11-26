@@ -140,9 +140,9 @@ def main():
         result_node_search_btree2_partial = []
         result_node_search_btree3_partial = []
 
-        t1 = 250
-        t2 = 500
-        t3 = 2000
+        t1 = 70
+        t2 = 250
+        t3 = 500
         array_test = np.random.randint(0, 1000, 10000)
         my_btree1 = BTree(t1)
         my_btree2 = BTree(t2)
