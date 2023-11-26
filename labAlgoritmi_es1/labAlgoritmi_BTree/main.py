@@ -141,9 +141,9 @@ def main():
         result_node_search_btree2_partial = []
         result_node_search_btree3_partial = []
 
-        t1 = 200
-        t2 = 1000
-        t3 = 5000
+        t1 = 250
+        t2 = 500
+        t3 = 2000
         array_test = np.random.randint(0, 1000, 10000)
         my_btree1 = BTree(t1)
         my_btree2 = BTree(t2)
@@ -295,25 +295,25 @@ def main():
         result_time_search_btree3[i] = result_time_search_btree3[i] / num_iter_test
         result_node_search_btree3[i] = result_node_search_btree3[i] / num_iter_test
 
-    print("Tempi inserimento abr: ", result_time_insert_abr)
-    print("Tempi inserimento btree t=t1: ", result_time_insert_btree1)
-    print("Tempi inserimento btree t=t2: ", result_time_insert_btree2)
-    print("Tempi inserimento btree t=t3: ", result_time_insert_btree3)
+    print("Tempi inserimento ABR: ", result_time_insert_abr)
+    print("Tempi inserimento B-albero t=t1: ", result_time_insert_btree1)
+    print("Tempi inserimento B-albero t=t2: ", result_time_insert_btree2)
+    print("Tempi inserimento B-albero t=t3: ", result_time_insert_btree3)
     print("------")
-    print("Tempi ricerca abr: ", result_time_search_abr)
-    print("Tempi ricerca btree con t=t1: ", result_time_search_btree1)
-    print("Tempi ricerca btree con t=t2: ", result_time_search_btree2)
-    print("Tempi ricerca btree con t=t3: ", result_time_search_btree3)
+    print("Tempi ricerca ABR: ", result_time_search_abr)
+    print("Tempi ricerca B-albero con t=t1: ", result_time_search_btree1)
+    print("Tempi ricerca B-albero con t=t2: ", result_time_search_btree2)
+    print("Tempi ricerca B-albero con t=t3: ", result_time_search_btree3)
     print("------")
-    print("Nodi inserimento abr: ", result_node_insert_abr)
-    print("Nodi inserimento btree t=t1: ", result_node_insert_btree1)
-    print("Nodi inserimento btree t=t2: ", result_node_insert_btree2)
-    print("Nodi inserimento btree t=t3: ", result_node_insert_btree3)
+    print("Nodi inserimento ABR: ", result_node_insert_abr)
+    print("Nodi inserimento B-albero t=t1: ", result_node_insert_btree1)
+    print("Nodi inserimento B-albero t=t2: ", result_node_insert_btree2)
+    print("Nodi inserimento B-albero t=t3: ", result_node_insert_btree3)
     print("------")
-    print("Nodi ricerca abr: ", result_node_search_abr)
-    print("Nodi ricerca btree con t=t1: ", result_node_search_btree1)
-    print("Nodi ricerca btree con t=t2: ", result_node_search_btree2)
-    print("Nodi ricerca btree con t=t3: ", result_node_search_btree3)
+    print("Nodi ricerca ABR: ", result_node_search_abr)
+    print("Nodi ricerca B-albero con t=t1: ", result_node_search_btree1)
+    print("Nodi ricerca B-albero con t=t2: ", result_node_search_btree2)
+    print("Nodi ricerca B-albero con t=t3: ", result_node_search_btree3)
 
     if not os.path.exists("tables"):
         os.makedirs("tables")
@@ -321,62 +321,57 @@ def main():
     if not os.path.exists("plots"):
         os.makedirs("plots")
 
-    # ABR table
-    columns_abr = [
+    # table: insertion execution time
+    columns_time_insert = [
         [i for i in range(0, len(array_test), block_size)],
         ["{:.3e}".format(res) for res in result_time_insert_abr],
-        ["{:.3e}".format(res) for res in result_node_insert_abr],
-        ["{:.3e}".format(res) for res in result_time_search_abr],
-        ["{:.3e}".format(res) for res in result_node_search_abr],
-    ]
-    headers_abr = ("Nr elementi", "Tempo insert", "Nodi insert", "Tempo search", "Nodi search")
-    title_abr = "Albero binario di Ricerca"
-
-    drawTable(columns_abr, headers_abr, title_abr, "tabella1")
-    plt.show()
-
-    # BTree table ( t = t1)
-    columns_btree1 = [
-        [i for i in range(0, len(array_test), block_size)],
         ["{:.3e}".format(res) for res in result_time_insert_btree1],
-        ["{:.3e}".format(res) for res in result_node_insert_btree1],
-        ["{:.3e}".format(res) for res in result_time_search_btree1],
-        ["{:.3e}".format(res) for res in result_node_search_btree1],
-    ]
-    headers_btree1 = ("Nr elementi", "Tempo insert", "Nodi insert", "Tempo search", "Nodi search")
-    title_btree1 = "B Albero con t = t1"
-
-    drawTable(columns_btree1, headers_btree1, title_btree1, "tabella2")
-    plt.show()
-
-    # BTree Table (t = t2)
-    columns_btree2 = [
-        [i for i in range(0, len(array_test), block_size)],
         ["{:.3e}".format(res) for res in result_time_insert_btree2],
-        ["{:.3e}".format(res) for res in result_node_insert_btree2],
-        ["{:.3e}".format(res) for res in result_time_search_btree2],
-        ["{:.3e}".format(res) for res in result_node_search_btree2],
+        ["{:.3e}".format(res) for res in result_time_insert_btree3],
     ]
+    headers = ("Nr elementi", "ABR", "B-albero (t = t1)", "B-albero (t = t2)", "B-albero (t = t3)")
+    title_time_insert = "Tempo di esecuzione: inserimento"
 
-    headers_btree2 = ("Nr elementi", "Tempo insert", "Nodi insert", "Tempo search", "Nodi search")
-    title_btree2 = "B Albero con t = t2"
-
-    drawTable(columns_btree2, headers_btree2, title_btree2, "tabella3")
+    drawTable(columns_time_insert, headers, title_time_insert, "tabella1")
     plt.show()
 
-    # BTree table (t = t3)
-    columns_btree3 = [
+    # table: insertion nodes
+    columns_node_insert = [
         [i for i in range(0, len(array_test), block_size)],
-        ["{:.3e}".format(res) for res in result_time_insert_btree3],
+        ["{:.3e}".format(res) for res in result_node_insert_abr],
+        ["{:.3e}".format(res) for res in result_node_insert_btree1],
+        ["{:.3e}".format(res) for res in result_node_insert_btree2],
         ["{:.3e}".format(res) for res in result_node_insert_btree3],
+    ]
+    title_node_insert = "Nodi: inserimento"
+
+    drawTable(columns_node_insert, headers, title_node_insert, "tabella2")
+    plt.show()
+
+    # table: search execution time
+    columns_time_search = [
+        [i for i in range(0, len(array_test), block_size)],
+        ["{:.3e}".format(res) for res in result_time_search_abr],
+        ["{:.3e}".format(res) for res in result_time_search_btree1],
+        ["{:.3e}".format(res) for res in result_time_search_btree2],
         ["{:.3e}".format(res) for res in result_time_search_btree3],
+    ]
+    title_time_search = "Tempo di esecuzione: ricerca"
+
+    drawTable(columns_time_search, headers, title_time_search, "tabella3")
+    plt.show()
+
+    # table: search nodes
+    columns_node_search = [
+        [i for i in range(0, len(array_test), block_size)],
+        ["{:.3e}".format(res) for res in result_node_search_abr],
+        ["{:.3e}".format(res) for res in result_node_search_btree1],
+        ["{:.3e}".format(res) for res in result_node_search_btree2],
         ["{:.3e}".format(res) for res in result_node_search_btree3],
     ]
+    title_node_search = "Nodi: ricerca"
 
-    headers_btree3 = ("Nr elementi", "Tempo insert", "Nodi insert", "Tempo search", "Nodi search")
-    title_btree3 = "B Albero con t = t3"
-
-    drawTable(columns_btree3, headers_btree3, title_btree3, "tabella4")
+    drawTable(columns_node_search, headers, title_node_search, "tabella4")
     plt.show()
 
     # Plots
