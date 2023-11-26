@@ -237,7 +237,7 @@ def main():
 
         # inserting values into arrays and calculating the average
         if it == 0:
-            for i in range(0, len(result_time_insert_abr_partial)):
+            for i in range(0, len(array_test)//block_size):
                 result_time_insert_abr.append(result_time_insert_abr_partial[i])
                 result_node_insert_abr.append(result_node_insert_abr_partial[i])
                 result_time_insert_btree1.append(result_time_insert_btree1_partial[i])
@@ -256,7 +256,7 @@ def main():
                 result_time_search_btree3.append(result_time_search_btree3_partial[i])
                 result_node_search_btree3.append(result_node_search_btree3_partial[i])
         else:
-            for i in range(0, len(result_time_insert_abr)):
+            for i in range(0, len(array_test)//block_size):
                 result_time_insert_abr[i] += result_time_insert_abr_partial[i]
                 result_node_insert_abr[i] += result_node_insert_abr_partial[i]
                 result_time_insert_btree1[i] += result_time_insert_btree1_partial[i]
@@ -275,7 +275,7 @@ def main():
                 result_time_search_btree3[i] += result_time_search_btree3_partial[i]
                 result_node_search_btree3[i] += result_node_search_btree3_partial[i]
 
-    for i in range(0, len(result_time_insert_abr)):
+    for i in range(0, len(array_test)//block_size):
         result_time_insert_abr[i] = result_time_insert_abr[i] / num_iter_test
         result_node_insert_abr[i] = result_node_insert_abr[i] / num_iter_test
         result_time_insert_btree1[i] = result_time_insert_btree1[i] / num_iter_test
