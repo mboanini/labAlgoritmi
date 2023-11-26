@@ -322,7 +322,7 @@ def main():
 
     # table: insertion execution time
     columns_time_insert = [
-        [i for i in range(0, len(array_test), block_size)],
+        [i for i in range(block_size, len(array_test)+block_size, block_size)],
         ["{:.3e}".format(res) for res in result_time_insert_abr],
         ["{:.3e}".format(res) for res in result_time_insert_btree1],
         ["{:.3e}".format(res) for res in result_time_insert_btree2],
@@ -335,7 +335,7 @@ def main():
 
     # table: insertion nodes
     columns_node_insert = [
-        [i for i in range(0, len(array_test), block_size)],
+        [i for i in range(block_size, len(array_test)+block_size, block_size)],
         ["{:.3e}".format(res) for res in result_node_insert_abr],
         ["{:.3e}".format(res) for res in result_node_insert_btree1],
         ["{:.3e}".format(res) for res in result_node_insert_btree2],
@@ -347,7 +347,7 @@ def main():
 
     # table: search execution time
     columns_time_search = [
-        [i for i in range(0, len(array_test), block_size)],
+        [i for i in range(block_size, len(array_test)+block_size, block_size)],
         ["{:.3e}".format(res) for res in result_time_search_abr],
         ["{:.3e}".format(res) for res in result_time_search_btree1],
         ["{:.3e}".format(res) for res in result_time_search_btree2],
@@ -359,7 +359,7 @@ def main():
 
     # table: search nodes
     columns_node_search = [
-        [i for i in range(0, len(array_test), block_size)],
+        [i for i in range(block_size, len(array_test)+block_size, block_size)],
         ["{:.3e}".format(res) for res in result_node_search_abr],
         ["{:.3e}".format(res) for res in result_node_search_btree1],
         ["{:.3e}".format(res) for res in result_node_search_btree2],
